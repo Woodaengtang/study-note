@@ -38,7 +38,7 @@ function [theta, A_q, B_q] = least_square(data, input_order, output_order)
     Phi = regressor_matrix(data, input_order, output_order);
     order = max(input_order, output_order);
     Output = data.y(order+1:end);
-    theta = inv(Phi'*Phi) * Phi'*Output;
+    theta = (Phi'*Phi)\Phi'*Output;
     A_q = theta(1:output_order)';
     B_q = theta(output_order+1:input_order+output_order)';
 end
@@ -49,5 +49,4 @@ function discrete_sys_rlocus(data, input_order, output_order)
     B_q = [0, B_q];
     sys = tf(B_q, A_q, 0.1, 'Variable', 'z^-1');
     rlocus(sys);
-    axis equal;
 end
