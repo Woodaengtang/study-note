@@ -3,7 +3,7 @@ close all; clear; clc;
 t0   = 0;            % initial time [s]
 U    = 3;            % acceleration magnitude [m/s²]
 h    = 10;           % target position [m]
-Tmax = 100;          % loose upper bound on final time [s]
+Tmax = 20;          % loose upper bound on final time [s]
 posBound = 20;       % bound of position x, y
 velBound = 10;       % bound of velocity u, v
 
@@ -41,14 +41,14 @@ bounds.phase.control.upper = betaMax;
 bounds.phase.integral.lower = -infB;
 bounds.phase.integral.upper = infB;
 
-%% 4. initial guess
+%% initial guess
 guess.phase.time    = [t0; Tmax/2];
 guess.phase.state   = [0 0 0 0;    % start
                        0 h 0 0];   % crude target
 guess.phase.control = [0; 0];
 guess.phase.integral = 0;
 
-%% 5. mesh settings
+%% mesh settings
 mesh.method          = 'hp-PattersonRao';
 mesh.tolerance       = 1e-6;
 mesh.maxiterations   = 10;
@@ -57,15 +57,14 @@ mesh.colpointsmax    = 10;
 mesh.phase.colpoints = 4*ones(1,10);
 mesh.phase.fraction  = 0.1*ones(1,10);
 
-%% 6. derivatives & NLP options 
+%% derivatives & NLP options 
 derivatives.supplier        = 'sparseFD';
 derivatives.derivativelevel = 'second';
-
 nlp.solver                      = 'ipopt';
 nlp.ipoptoptions.linear_solver  = 'ma57';
 nlp.ipoptoptions.tolerance      = 1e-10;
 
-%% 7. assemble setup 
+%% assemble setup 
 setup.name          = 'ProjectOCP';
 setup.functions     = functions;
 setup.bounds        = bounds;
@@ -77,13 +76,13 @@ setup.auxdata       = auxdata;
 setup.scales.method = 'automatic-bounds';
 setup.method        = 'RPM-Differentiation';
 
-%% 8. solve 
+%% solve 
 output = gpops2(setup);
 sol    = output.result.solution;
 save("OutputOCP.mat", "output");
 save("SolutionOCP.mat", "sol");
 
-%%
+%% functions
 % Continuous dynamics + integrand
 function phaseout = ContinuousOCP(input)
 U = input.auxdata.U;
@@ -105,6 +104,6 @@ end
 
 % Endpoint function
 function output = EndpointOCP(input)
-u0 = input.phase.initialstate(3);   % currently fixed at 0
+u0 = input.phase.initialstate(3);
 output.objective = input.phase.integral + u0;
 end
