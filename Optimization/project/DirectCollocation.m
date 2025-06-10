@@ -48,7 +48,7 @@ problem.guess.control = [0,pi];
 
 problem.options.nlpOpt = optimset(...
     'Display','iter',...
-    'MaxFunEvals',1e5);
+    'MaxFunEvals',1e6);
 problem.options.method = 'hermiteSimpson';
 soln = optimTraj(problem);
 

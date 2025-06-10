@@ -146,72 +146,72 @@ GPOPS-II의 \textbf{guess} structure는 OCP의 초기 상태 $x(0)$, $y(0)$, $u(
 그 외, mesh, derivatives, NLP options와 같은 GPOPS-II의 설정을 아래 표 [\ref{tab4}]로 설정하였다.
 
 \begin{table}[H]
-    \begin{tabular}{|c|c|}
-        \hline
-        \textbf{Mesh Settings} & \textbf{Values} \\
-        \hline
-        Method                 & hp-PattersonRao  \\
-        Tolerance              & $1 \times 10^{-6}$ \\
-        Max Iterations         & 10               \\
-        Col Points Min         & 4                \\
-        Col Points Max         & 10               \\
-        Phase Col Points       & $4 \times$ones([1, 10]) \\
-        Phase Fraction         & $0.1 \times$ones([1, 10]) \\
-        \hline
-        \textbf{Derivatives Options} & \textbf{Values} \\
-        \hline
-        Supplier              & sparseFD        \\
-        Derivative Level      & second          \\
-        \hline
-        \textbf{NLP Options} & \textbf{Values} \\
-        \hline
-        NLP Solver            & ipopt           \\
-        NLP Ipopt Options    & linear\_solver = ma57 \\
-        NLP Ipopt Options    & tolerance = $1 \times 10^{-10}$ \\
-        \hline
-    \end{tabular}
-    \centering
-    \caption{GPOPS-II settings for the OCP}
-    \label{tab4}
+	\begin{tabular}{|c|c|}
+		\hline
+		\textbf{Mesh Settings}       & \textbf{Values}                 \\
+		\hline
+		Method                       & hp-PattersonRao                 \\
+		Tolerance                    & $1 \times 10^{-6}$              \\
+		Max Iterations               & 10                              \\
+		Col Points Min               & 4                               \\
+		Col Points Max               & 10                              \\
+		Phase Col Points             & $4 \times$ones([1, 10])         \\
+		Phase Fraction               & $0.1 \times$ones([1, 10])       \\
+		\hline
+		\textbf{Derivatives Options} & \textbf{Values}                 \\
+		\hline
+		Supplier                     & sparseFD                        \\
+		Derivative Level             & second                          \\
+		\hline
+		\textbf{NLP Options}         & \textbf{Values}                 \\
+		\hline
+		NLP Solver                   & ipopt                           \\
+		NLP Ipopt Options            & linear\_solver = ma57           \\
+		NLP Ipopt Options            & tolerance = $1 \times 10^{-10}$ \\
+		\hline
+	\end{tabular}
+	\centering
+	\caption{GPOPS-II settings for the OCP}
+	\label{tab4}
 \end{table}
 
 다음은 GPOPS-II를 사용한 OCP의 solution을 나타낸 것이다.
 
 \begin{figure}[ht]
-  \centering
-  \begin{subfigure}[b]{0.49\linewidth}
-    \includegraphics[width=\linewidth]{figures/SolX.png}
-    \caption{Position in $x$-direction}
-    \label{fig:ocp1_x}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[b]{0.49\linewidth}
-    \includegraphics[width=\linewidth]{figures/SolY.png}
-    \caption{Position in $y$-direction}
-    \label{fig:ocp1_y}
-  \end{subfigure}
-  \caption{Position solution of the OCP using GPOPS-II}
-  \label{fig:ocp1_sol}
+	\centering
+	\begin{subfigure}[b]{0.49\linewidth}
+		\includegraphics[width=\linewidth]{figures/SolX.png}
+		\caption{Position in $x$-direction}
+		\label{fig:ocp1_x}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.49\linewidth}
+		\includegraphics[width=\linewidth]{figures/SolY.png}
+		\caption{Position in $y$-direction}
+		\label{fig:ocp1_y}
+	\end{subfigure}
+	\caption{Position solution of the OCP using GPOPS-II}
+	\label{fig:ocp1_sol}
 \end{figure}
 
 Fig. (\ref{fig:ocp1_y})에서 볼 수 있듯이, OCP의 목표 위치 $h$에 도달하는 것을 확인할 수 있다.
-또한, Fig. (\ref{fig:ocp1_v}) 역시 OCP의 최종 속도 $v(T)$가 0으로 도달한 것을 확인할 수 있다.
+또한, Fig. (\ref{fig:ocp1_v}) 역시 OCP의 최종 속도 $v(T)$가 0으로 도달하여 OCP의 조건을 만족하는 것을 확인할 수 있다.
 
 \begin{figure}[ht]
-    \centering
-    \begin{subfigure}[b]{0.49\linewidth}
-        \includegraphics[width=\linewidth]{figures/SolU.png}
-        \caption{Velocity in $x$-direction : $u$}
-        \label{fig:ocp1_u}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.49\linewidth}
-        \includegraphics[width=\linewidth]{figures/SolV.png}
-        \caption{Velocity in $y$-direction : $v$}
-        \label{fig:ocp1_v}
-    \end{subfigure}
-    \caption{Velocity solution of the OCP using GPOPS-II}
-    \label{fig:ocp1_vel}    
+	\centering
+	\begin{subfigure}[b]{0.49\linewidth}
+		\includegraphics[width=\linewidth]{figures/SolU.png}
+		\caption{Velocity in $x$-direction : $u$}
+		\label{fig:ocp1_u}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.49\linewidth}
+		\includegraphics[width=\linewidth]{figures/SolV.png}
+		\caption{Velocity in $y$-direction : $v$}
+		\label{fig:ocp1_v}
+	\end{subfigure}
+	\caption{Velocity solution of the OCP using GPOPS-II}
+	\label{fig:ocp1_vel}
 \end{figure}
 
 GPOPS-II를 사용한 OCP의 solution에서, $x(0)$를 제외한 초기 상태들은 각각 $y(0) = -0.0302\,m$, $u(0) = -2.7604\,m/s$, $v(0) = -0.0842\,m/s$로 설정한 bound 내의 값들로 정의되었다.
@@ -221,33 +221,172 @@ GPOPS-II 알고리즘은 $J$를 최소화하기 위해 지정한 최종 시간 $
 정의되지 않은 마지막 상태 $x(T)$는 $-18.6161\,m$로 설정한 bound 내의 값에서 시뮬레이션이 종료됐다.
 
 \begin{figure}[ht]
-    \centering
-    \begin{subfigure}[b]{0.49\linewidth}
-        \includegraphics[width=\linewidth]{figures/ObjFcn.png}
-        \caption{Objective function $J$}
-        \label{fig:ocp1_obj}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.49\linewidth}
-        \includegraphics[width=\linewidth]{figures/TrajXY.png}
-        \caption{Trajectory in $xy$-plane}
-        \label{fig:ocp1_xy}
-    \end{subfigure}
-    \caption{Control and Trajectory solution of the OCP using GPOPS-II}
-    \label{fig:ocp1_control}
+	\centering
+	\begin{subfigure}[b]{0.49\linewidth}
+		\includegraphics[width=\linewidth]{figures/ObjFcn.png}
+		\caption{Objective function $J$}
+		\label{fig:ocp1_obj}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.49\linewidth}
+		\includegraphics[width=\linewidth]{figures/TrajXY.png}
+		\caption{Trajectory in $xy$-plane}
+		\label{fig:ocp1_xy}
+	\end{subfigure}
+	\caption{Control and Trajectory solution of the OCP using GPOPS-II}
+	\label{fig:ocp1_control}
 \end{figure}
 
 \begin{problem}{Problem [2]}{prob1-2}
 Solve the above problem using "Direct Collocation Method"
-
-
 \end{problem}
 
-\begin{problem}{Problem [3]}{prob1-3}
-Solve the above problem using indirect methods (quasi-linearizatin, differential correction, etc.)
+시스템의 state space equation은 \eqref{eq:ocp2}를 이용해 다음과 같이 정의된다.
 
+\begin{equation}\label{dirCol:eq1}
+	\begin{bmatrix} \dot{x}(t) \\ \dot{y}(t) \\ \dot{u}(t) \\ \dot{v}(t) \end{bmatrix} = \begin{bmatrix} u(t) \\ v(t) \\ U \cos \beta \\ U \sin \beta \end{bmatrix} = f(t, u(t), v(t), \beta)
+\end{equation}
 
-\end{problem}
+위 continuous time system을 discrete time system으로 변환한다.
+편의를 위해 $\mathrm{x}(t) = \begin{bmatrix} {x}(t) \, {y}(t) \, {u}(t) \, {v}(t) \end{bmatrix}^\mathsf{T}$라고 정의한다.
+$t_{i + 1} - t_i = h$라고 정의하고, $t_i$는 $i$번째 time step을 의미한다.
+
+\begin{equation}\label{dirCol:eq2}
+	0 = \mathrm{x}(t_{i+1}) - \mathrm{x}(t_i) - h f(t_i, u(t_i), v(t_i), \beta(t_i))
+\end{equation}
+
+$\tilde{\mathrm{x}}(t)$를 cubic spline으로 정의한다.
+이때, $\tau$는 normalized time variable로, $\tau = \frac{t - t_i}{h}$로 정의된다.
+
+\begin{equation}\label{dirCol:eq3}
+	\tilde{\mathrm{x}}_i (\tau) = c_{i0} + c_{i1}\tau + c_{i2}\tau^2 + c_{i3}\tau^3
+\end{equation}
+
+위 근사된 cubic spline의 계수는 아래와 같이 정의된다.
+
+\begin{equation}
+	\begin{aligned}
+		c_{i0} & = \mathrm{x}(t_i) = [x_i,\, y_i,\, u_i,\, v_i]^\mathsf{T}			\\
+		c_{i1} & = hf_i = [u_i,\, v_i,\, U\cos\beta_i,\, U\sin\beta_i]^\mathsf{T}x	\\
+		c_{i2} & = -3x_i + 3x_{i+1} - 2hf_i - hf_{i+1} = \begin{bmatrix}
+		-3x_i + 3x_{i+1} - 2hu_i - hu_{i+1} 					\\
+		-3y_i + 3y_{i+1} - 2hv_i - hv_{i+1} 					\\
+		-3u_i + 3u_{i+1} - 2hU\cos\beta_i - hU\cos\beta_{i+1} 	\\
+		-3v_i + 3v_{i+1} - 2hU\sin\beta_i - hU\sin\beta_{i+1}
+		\end{bmatrix} \\
+		c_{i3} & = 2x_i - 2x_{i+1} + hf_i + hf_{i+1} = \begin{bmatrix}
+		2x_i - 2x_{i+1} + hu_i + hu_{i+1}                   	\\
+		2y_i - 2y_{i+1} + hv_i + hv_{i+1}                   	\\
+		2u_i - 2u_{i+1} + hU\cos\beta_i + hU\cos\beta_{i+1} 	\\
+		2v_i - 2v_{i+1} + hU\sin\beta_i + hU\sin\beta_{i+1}
+		\end{bmatrix}
+	\end{aligned}
+\end{equation}
+
+전체 시간 interval $[t_0, t_f]$를 $N$개의 time step으로 나누고, 각 time step의 길이를 $h = \frac{t_f - t_0}{N}$로 정의한다.
+이때, 모든 다항 계수, time step의 상태값, control variable을 포함하는 결정변수를 정의한다.
+\begin{equation}\label{dirCol:eq4}
+	\mathrm{z} = \begin{bmatrix}
+		c_{00}, c_{01}, c_{02}, c_{03}, \ldots, c_{N-1,0}, c_{N-1,1}, c_{N-1,2}, c_{N-1,3} \\
+		x_0, y_0, u_0, v_0, x_1, y_1, u_1, v_1, \ldots, x_N, y_N, u_N, v_N                 \\
+		\beta_0, \beta_1, \ldots, \beta_{N-1}
+	\end{bmatrix}^\mathsf{T}
+\end{equation}
+
+Boundary condition을 만족하며 목적함수 $J$를 최소화하는 결정변수 $\mathrm{z}$를 찾는 대규모 비선형 최적화 문제를 풀어야 한다.
+대규모 NLP를 풀기 위한 알고리즘을 구성하지 못해서 \citep{kellyDirectCollocation}의 코드를 참고하여 Direct Collocation Method를 구현하였다.
+GPOPS-II와 Direct Collocation Method의 결과 차이를 확인하기 위해 boundary condition을 표 [\ref{tab5}]로 동일하게 설정하였다.
+
+\begin{table}[H]
+	\begin{tabular}{|c|c|}
+		\hline
+		\textbf{Parameters}                      & \textbf{Values}                    \\
+		\hline
+		Initial time $t_0$                       & 0 $(s)$                            \\
+		\hline
+		Acceleration magnitude $U$               & 3 $(m/s^2)$                        \\
+		\hline
+		Target position $h$                      & 10 $(m)$                           \\
+		\hline
+		Lose upper bound on final time $T_{max}$ & 6 $(s)$                            \\
+		\hline
+		State bounds $x, y$                      & $\pm 20\,m$                        \\
+		State bounds $u, v$                      & $\pm 10\,m/s$                      \\
+		\hline
+		Control bounds $\beta$                   & $-\pi\,(rad)$, $\pi\,(rad)$        \\
+		\hline
+		Initial control variable $\beta_0$       & 0 $(rad)$                          \\
+		\hline
+		Time step $dt$                           & 0.001 $(s)$                        \\
+		\hline
+		Initial state $x_0, y_0, u_0, v_0$       & 0, 0, 5, 0 $(m, m, m/s, m/s)$      \\
+		\hline
+		Final state $x_f, y_f, u_f, v_f$         & -10, 10, -10, 0 $(m, m, m/s, m/s)$ \\
+		\hline
+	\end{tabular}
+	\centering
+	\caption{Parameters and Bounds for the Direct Collocation Method and GPOPS-II}
+	\label{tab5}
+\end{table}
+
+\begin{figure}[ht]
+	\begin{subfigure}[b]{0.49\linewidth}
+		\includegraphics[width=\linewidth]{figures/GpopsDcolX.png}
+		\caption{Position in $x$-direction}
+		\label{fig:dircol_x}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.49\linewidth}
+		\includegraphics[width=\linewidth]{figures/GpopsDcolY.png}
+		\caption{Position in $y$-direction}
+		\label{fig:dircol_y}
+	\end{subfigure}
+	\centering
+	\caption{Position solution of the OCP using Direct Collocation Method and GPOPS-II}
+	\label{fig:dircol_gpops_pos}
+\end{figure}
+
+\begin{figure}
+	\begin{subfigure}[b]{0.49\linewidth}
+		\includegraphics[width=\linewidth]{figures/GpopsDcolU.png}
+		\caption{Velocity in $x$-direction : $u$}
+		\label{fig:dircol_u}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.49\linewidth}
+		\includegraphics[width=\linewidth]{figures/GpopsDcolV.png}
+		\caption{Velocity in $y$-direction : $v$}
+		\label{fig:dircol_v}
+	\end{subfigure}
+	\centering
+	\caption{Velocity solution of the OCP using Direct Collocation Method and GPOPS-II}
+	\label{fig:dircol_gpops_vel}
+\end{figure}
+
+\begin{figure}
+	\begin{subfigure}[b]{0.49\linewidth}
+		\includegraphics[width=\linewidth]{figures/GpopsDcolObj.png}
+		\caption{Objective function $J$}
+		\label{fig:dircol_obj}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.49\linewidth}
+		\includegraphics[width=\linewidth]{figures/GpopsDcolTraj.png}
+		\caption{Trajectory in $xy$-plane}
+		\label{fig:dircol_xy}
+	\end{subfigure}
+	\centering
+	\caption{Control and Trajectory solution of the OCP using Direct Collocation Method and GPOPS-II}
+	\label{fig:dircol_gpops_control}
+\end{figure}
+위 결과는 GPOPS-II와 Direct Collocation Method의 결과를 비교한 것이다.
+
+Fig. (\ref{fig:dircol_y}, \ref{fig:dircol_v})에서 확인할 수 있듯이, 두 방법 모두 $y$ 목표 위치 $h$에, $v$ 목표 속도 $0$에 도달하는 것을 확인할 수 있다.
+그리고 임의로 지정한 boundary condition (Tab. [\ref{tab5}])에 따라, 종말 상태 $x(T)$는 $-10\;m$로, $u(t)$는 $-10\;m/s$로 도달하였다.
+다만 Fig. \ref{fig:dircol_gpops_control}에서 볼 수 있듯이, GPOPS-II와 Direct Collocation Method의 결과는 objective function $J$의 값에서 차이를 보인다.
+GPOPS-II는 $J = -9.8064$로, Direct Collocation Method는 $J = -5.7027$로 도달해 objective function $J$을 GPOPS-II가 더 낮은 값을 달성했음을 확인할 수 있다.
+이러한 차이는 GPOPS-II가 최적화 문제를 해결하기 위해 사용한 알고리즘과 Direct Collocation Method의 구현 방식의 차이 (nlp solver, Legendre-Gauss-Radau (LGR) collocation method, cubic polynomial collocation method)에서 기인한다.
+
 
 \bibliographystyle{apalike}
 \bibliography{references}
