@@ -266,20 +266,20 @@ $\tilde{\mathrm{x}}(t)$를 cubic spline으로 정의한다.
 
 \begin{equation}
 	\begin{aligned}
-		c_{i0} & = \mathrm{x}(t_i) = [x_i,\, y_i,\, u_i,\, v_i]^\mathsf{T}			\\
-		c_{i1} & = hf_i = [u_i,\, v_i,\, U\cos\beta_i,\, U\sin\beta_i]^\mathsf{T}x	\\
+		c_{i0} & = \mathrm{x}(t_i) = [x_i,\, y_i,\, u_i,\, v_i]^\mathsf{T}                                     \\
+		c_{i1} & = hf_i = [u_i,\, v_i,\, U\cos\beta_i,\, U\sin\beta_i]^\mathsf{T}x                             \\
 		c_{i2} & = -3x_i + 3x_{i+1} - 2hf_i - hf_{i+1} = \begin{bmatrix}
-		-3x_i + 3x_{i+1} - 2hu_i - hu_{i+1} 					\\
-		-3y_i + 3y_{i+1} - 2hv_i - hv_{i+1} 					\\
-		-3u_i + 3u_{i+1} - 2hU\cos\beta_i - hU\cos\beta_{i+1} 	\\
-		-3v_i + 3v_{i+1} - 2hU\sin\beta_i - hU\sin\beta_{i+1}
-		\end{bmatrix} \\
+			                                                 -3x_i + 3x_{i+1} - 2hu_i - hu_{i+1}                   \\
+			                                                 -3y_i + 3y_{i+1} - 2hv_i - hv_{i+1}                   \\
+			                                                 -3u_i + 3u_{i+1} - 2hU\cos\beta_i - hU\cos\beta_{i+1} \\
+			                                                 -3v_i + 3v_{i+1} - 2hU\sin\beta_i - hU\sin\beta_{i+1}
+		                                                 \end{bmatrix} \\
 		c_{i3} & = 2x_i - 2x_{i+1} + hf_i + hf_{i+1} = \begin{bmatrix}
-		2x_i - 2x_{i+1} + hu_i + hu_{i+1}                   	\\
-		2y_i - 2y_{i+1} + hv_i + hv_{i+1}                   	\\
-		2u_i - 2u_{i+1} + hU\cos\beta_i + hU\cos\beta_{i+1} 	\\
-		2v_i - 2v_{i+1} + hU\sin\beta_i + hU\sin\beta_{i+1}
-		\end{bmatrix}
+			                                               2x_i - 2x_{i+1} + hu_i + hu_{i+1}                   \\
+			                                               2y_i - 2y_{i+1} + hv_i + hv_{i+1}                   \\
+			                                               2u_i - 2u_{i+1} + hU\cos\beta_i + hU\cos\beta_{i+1} \\
+			                                               2v_i - 2v_{i+1} + hU\sin\beta_i + hU\sin\beta_{i+1}
+		                                               \end{bmatrix}
 	\end{aligned}
 \end{equation}
 
@@ -294,34 +294,36 @@ $\tilde{\mathrm{x}}(t)$를 cubic spline으로 정의한다.
 \end{equation}
 
 Boundary condition을 만족하며 목적함수 $J$를 최소화하는 결정변수 $\mathrm{z}$를 찾는 대규모 비선형 최적화 문제를 풀어야 한다.
-대규모 NLP를 풀기 위한 알고리즘을 구성하지 못해서 \citep{kellyDirectCollocation}의 코드를 참고하여 Direct Collocation Method를 구현하였다.
+대규모 NLP를 풀기 위한 알고리즘을 구성하지 못해서 \citep{kellyDirectCollocation}의 코드를 참고하여 Direct Collocation Method를 이용해 OCP를 풀었다.
+Direct collocation method의 segment 수는 30으로 설정했다.
 GPOPS-II와 Direct Collocation Method의 결과 차이를 확인하기 위해 boundary condition을 표 [\ref{tab5}]로 동일하게 설정하였다.
 
 \begin{table}[H]
 	\begin{tabular}{|c|c|}
 		\hline
-		\textbf{Parameters}                      & \textbf{Values}                    \\
+		\textbf{Parameters}                               & \textbf{Values}                        \\
 		\hline
-		Initial time $t_0$                       & 0 $(s)$                            \\
+		Acceleration magnitude $U$                        & 2 $(m/s^2)$                            \\
 		\hline
-		Acceleration magnitude $U$               & 3 $(m/s^2)$                        \\
+		Target position $h$                               & 10 $(m)$                               \\
 		\hline
-		Target position $h$                      & 10 $(m)$                           \\
+		Lose upper bound on final time $T_{max}$          & 7 $(s)$                                \\
 		\hline
-		Lose upper bound on final time $T_{max}$ & 6 $(s)$                            \\
+		State bounds $x, y$                               & $\pm 20\,m$                            \\
+		State bounds $u, v$                               & $\pm 10\,m/s$                          \\
 		\hline
-		State bounds $x, y$                      & $\pm 20\,m$                        \\
-		State bounds $u, v$                      & $\pm 10\,m/s$                      \\
+		Final state bounds $x(T)$, $y(T)$, $u(T)$, $v(T)$ & $[-20, 10, -10, 0]^\mathsf{T}$\\
 		\hline
-		Control bounds $\beta$                   & $-\pi\,(rad)$, $\pi\,(rad)$        \\
+		Control bounds $\beta$                            & $-\pi\,(rad)$, $\pi\,(rad)$            \\
 		\hline
-		Initial control variable $\beta_0$       & 0 $(rad)$                          \\
+		Initial control variable $\beta_0$                & 0 $(rad)$                              \\
 		\hline
-		Time step $dt$                           & 0.001 $(s)$                        \\
 		\hline
-		Initial state $x_0, y_0, u_0, v_0$       & 0, 0, 5, 0 $(m, m, m/s, m/s)$      \\
+		\textbf{Guess}                                    & \textbf{Values}                        \\
 		\hline
-		Final state $x_f, y_f, u_f, v_f$         & -10, 10, -10, 0 $(m, m, m/s, m/s)$ \\
+		Initial state $x(0)$, $y(0)$, $u(0)$, $v(0)$      & $[0, 0, 0, 0]$ $(m, m, m/s, m/s)$      \\
+		\hline
+		Final state $x(T)$, $y(T)$, $u(T)$, $v(T)$        & $[-10, 10, -10, 0]$ $(m, m, m/s, m/s)$ \\
 		\hline
 	\end{tabular}
 	\centering
@@ -381,12 +383,12 @@ GPOPS-II와 Direct Collocation Method의 결과 차이를 확인하기 위해 bo
 \end{figure}
 위 결과는 GPOPS-II와 Direct Collocation Method의 결과를 비교한 것이다.
 
+GPOPS-II와 Direct Collocation Method의 결과 Fig. (\ref{fig:dircol_x}, \ref{fig:dircol_y}, \ref{fig:dircol_u}, \ref{fig:dircol_xy})가 유사함을 확인할 수 있다.
 Fig. (\ref{fig:dircol_y}, \ref{fig:dircol_v})에서 확인할 수 있듯이, 두 방법 모두 $y$ 목표 위치 $h$에, $v$ 목표 속도 $0$에 도달하는 것을 확인할 수 있다.
-그리고 임의로 지정한 boundary condition (Tab. [\ref{tab5}])에 따라, 종말 상태 $x(T)$는 $-10\;m$로, $u(t)$는 $-10\;m/s$로 도달하였다.
-다만 Fig. \ref{fig:dircol_gpops_control}에서 볼 수 있듯이, GPOPS-II와 Direct Collocation Method의 결과는 objective function $J$의 값에서 차이를 보인다.
-GPOPS-II는 $J = -9.8064$로, Direct Collocation Method는 $J = -5.7027$로 도달해 objective function $J$을 GPOPS-II가 더 낮은 값을 달성했음을 확인할 수 있다.
+GPOPS는 $x(T)$가 $-20\;m$로, $u(t)$는 $-9.099\;m/s$로, Direct Collocation Method는 $x(T)$가 $-20\;m$로, $u(t)$는 $-9.1416\;m/s$로 설정한 bound 내의 값에서 시뮬레이션이 종료됐다.
+기존 OCP에서 정의한 objective function $J$는 최종 시간 $T$에서의 속도 $u(T)$를 최소화하는 것으로 정의되어, Direct Collocation Method가 GPOPS-II의 결과보다 좋은 결과를 보였다.
+하지만 GPOPS-II를 사용하기 위해 재정의한 objective function $J$의 관점에선 Fig. \ref{fig:dircol_obj}과 같이 GPOPS-II가 -9.0491, Direct Collocation Method가 -4.7641로 GPOPS-II의 $J$ 값이 더 낮은 결과를 보여주었다.
 이러한 차이는 GPOPS-II가 최적화 문제를 해결하기 위해 사용한 알고리즘과 Direct Collocation Method의 구현 방식의 차이 (nlp solver, Legendre-Gauss-Radau (LGR) collocation method, cubic polynomial collocation method)에서 기인한다.
-
 
 \bibliographystyle{apalike}
 \bibliography{references}

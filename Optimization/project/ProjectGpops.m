@@ -1,9 +1,9 @@
 close all; clear; clc;
 
 t0   = 0;            % initial time [s]
-U    = 3;            % acceleration magnitude [m/s²]
+U    = 2;            % acceleration magnitude [m/s²]
 h    = 10;           % target position [m]
-Tmax = 20;          % loose upper bound on final time [s]
+Tmax = 7;          % loose upper bound on final time [s]
 posBound = 20;       % bound of position x, y
 velBound = 10;       % bound of velocity u, v
 
@@ -26,14 +26,14 @@ bounds.phase.finaltime.lower   = 0.01;
 bounds.phase.finaltime.upper   = Tmax;
 
 % states = [x y u v]
-bounds.phase.initialstate.lower = [0 -posBound -velBound -velBound];
-bounds.phase.initialstate.upper = [0  posBound  velBound  velBound];
+bounds.phase.initialstate.lower = [0, 0, 0, 0];
+bounds.phase.initialstate.upper = [0, 0, 0, 0];
 
 bounds.phase.state.lower  = [-posBound -posBound -velBound -velBound];
 bounds.phase.state.upper  = [ posBound  posBound  velBound  velBound];
 
 bounds.phase.finalstate.lower = [-posBound  h -velBound 0];
-bounds.phase.finalstate.upper = [ posBound  h  velBound 0];
+bounds.phase.finalstate.upper = [posBound  h velBound 0];
 
 bounds.phase.control.lower = betaMin;
 bounds.phase.control.upper = betaMax;
@@ -42,16 +42,16 @@ bounds.phase.integral.lower = -infB;
 bounds.phase.integral.upper = infB;
 
 %% initial guess
-guess.phase.time    = [t0; Tmax/2];
+guess.phase.time    = [t0; Tmax];
 guess.phase.state   = [0 0 0 0;    % start
-                       0 h 0 0];   % crude target
+                       -posBound/2  h -velBound 0];   % crude target
 guess.phase.control = [0; 0];
-guess.phase.integral = 0;
+guess.phase.integral = -10;
 
 %% mesh settings
 mesh.method          = 'hp-PattersonRao';
 mesh.tolerance       = 1e-6;
-mesh.maxiterations   = 10;
+mesh.maxiterations   = 15;
 mesh.colpointsmin    = 4;
 mesh.colpointsmax    = 10;
 mesh.phase.colpoints = 4*ones(1,10);
@@ -79,8 +79,8 @@ setup.method        = 'RPM-Differentiation';
 %% solve 
 output = gpops2(setup);
 sol    = output.result.solution;
-save("OutputOCP.mat", "output");
-save("SolutionOCP.mat", "sol");
+save("BcOutputOCP.mat", "output");
+save("BcSolutionOCP.mat", "sol");
 
 %% functions
 % Continuous dynamics + integrand
@@ -99,11 +99,10 @@ udot = U.*cos(beta);
 vdot = U.*sin(beta);
 
 phaseout.dynamics  = [xdot ydot udot vdot];
-phaseout.integrand = udot;              % L(t) = u̇
+phaseout.integrand = U.*cos(beta);              % L(t) = u̇
 end
 
 % Endpoint function
 function output = EndpointOCP(input)
-u0 = input.phase.initialstate(3);
-output.objective = input.phase.integral + u0;
+output.objective = input.phase.integral;
 end

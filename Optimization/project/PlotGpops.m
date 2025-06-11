@@ -17,7 +17,7 @@ fig_name_solV = "SolV";
 fig_name_solX = "SolX";
 fig_name_solY = "SolY";
 
-output_linewidth = 1;
+output_linewidth = 2;
 
 PlotU = figure();
 hold on; grid on;

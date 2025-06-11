@@ -11,14 +11,14 @@ y = sol.phase.state(:, 2);
 u = sol.phase.state(:, 3);
 v = sol.phase.state(:, 4);
 
-dcol_t = linspace(soln.grid.time(1), soln.grid.time(end), 1000);
+dcol_t = linspace(soln.grid.time(1), soln.grid.time(end), 100000);
 dcol_x = soln.interp.state(dcol_t);
 dcol_u = soln.interp.control(dcol_t);
 
 h = 10;
-U = 3;
+U = 2;
 
-output_linewidth = 1;
+output_linewidth = 2;
 
 PlotU = figure();
 hold on; grid on;
@@ -80,7 +80,7 @@ GpopsObjJ = NaN([length(beta), 1]);
 GpopsObjJ(1) = u(1);
 for i = 1:(length(time)-1)
     dt = time(i + 1) - time(i);
-    trap = U*cos(beta(i))*dt;
+    trap = U*(cos(beta(i)) + cos(beta(i+1)))*dt/2;
     GpopsInteg = GpopsInteg + trap;
     GpopsObjJ(i+1) = GpopsInteg;
 end
@@ -90,7 +90,7 @@ DcolObjJ = NaN([length(dcol_t), 1]);
 DcolObjJ(1) = dcol_x(3,1);
 for i = 1:(length(dcol_t)-1)
     dt = dcol_t(i + 1) - dcol_t(i);
-    trap = U*cos(dcol_u(i))*dt;
+    trap = U*(cos(dcol_u(i)) + cos(dcol_u(i+1)))*dt/2;
     DcolInteg = DcolInteg + trap;
     DcolObjJ(i + 1) = DcolInteg;
 end
